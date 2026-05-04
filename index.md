@@ -1991,7 +1991,7 @@ Right now your weakest link is:
 
 It works conceptually, but to make it *mathematically defensible*, you’d want to formalize:
 
-* policy π(a|s) as compressed latent knowledge
+* policy `π(a|s)` as compressed latent knowledge
 * not explicitly invertible back to Σ or θ
 
 That would make your claim precise:
