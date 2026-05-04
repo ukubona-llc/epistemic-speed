@@ -23,7 +23,7 @@ Tensor/θ^t-> Marrix /L_0 + Σ w_i*L_i -> Vector/f(σ^2) -> Eigennode/g(λ) -> S
 ```
 
 Amd clarify: 
-- β (model coefficient or weight, w_i) is a function of covariance, right? 
+- β (model coefficient or weight, $w_i$) is a function of covariance, right? 
 - Off-diagonal; but,
 - Variance is orthogonal? Diagonal ?
   
@@ -1181,9 +1181,9 @@ I’ll give you a stack that actually holds up.
 
 You want:
 
-[
+$$
 \hat{\Theta} = \hat{\Sigma}^{-1}
-]
+$$
 
 But your data is:
 
@@ -1192,9 +1192,9 @@ But your data is:
 
 So the classical estimator:
 
-[
+$$
 \hat{\Sigma} = \frac{1}{n} \sum (x_i - \mu)(x_i - \mu)^T
-]
+$$
 
 → **breaks immediately**
 
@@ -1206,9 +1206,9 @@ Estimate **structure**, not moments.
 
 Rewrite the goal:
 
-[
+$$
 \Theta = \Sigma^{-1} \quad \text{encodes conditional independence}
-]
+$$
 
 So:
 
@@ -1222,9 +1222,9 @@ Replace sample covariance with **robust scatter estimators**:
 
 ### (A) Tyler’s M-estimator (heavy-tail invariant)
 
-[
+$$
 \hat{\Sigma} = \frac{d}{n} \sum_{i=1}^n \frac{x_i x_i^T}{x_i^T \hat{\Sigma}^{-1} x_i}
-]
+$$
 
 Key properties:
 
@@ -1240,9 +1240,9 @@ Key properties:
 
 Split data into blocks:
 
-[
+$$
 \hat{\Sigma} = \text{median}\left( \hat{\Sigma}_1, \hat{\Sigma}_2, ..., \hat{\Sigma}_k \right)
-]
+$$
 
 * robust to **ε-fraction corrupted data**
 * gives concentration bounds even under attack
@@ -1257,12 +1257,12 @@ Use **precision estimators**, not “invert then pray”.
 
 ## (A) Graphical Lasso (baseline)
 
-[
+$$
 \hat{\Theta} = \arg\min_{\Theta \succ 0}
 \left[
 \text{tr}(\Sigma \Theta) - \log \det \Theta + \lambda ||\Theta||_1
 \right]
-]
+$$
 
 * enforces sparsity
 * interpretable graph
@@ -1274,17 +1274,17 @@ Use **precision estimators**, not “invert then pray”.
 
 Replace Σ with robust estimator:
 
-[
+$$
 \Sigma \rightarrow \hat{\Sigma}_{robust}
-]
+$$
 
 OR use:
 
 ### **Huberized loss**
 
-[
+$$
 \min \sum \rho(x_i^T \Theta x_i) - \log \det \Theta
-]
+$$
 
 Where ρ is **Huber or Tukey loss**
 
@@ -1303,9 +1303,9 @@ Use:
 
 ### Kendall’s tau → covariance transform
 
-[
+$$
 \Sigma_{ij} = \sin\left(\frac{\pi}{2} \tau_{ij}\right)
-]
+$$
 
 * based on **rank correlation**
 * invariant to monotonic transforms
@@ -1319,9 +1319,9 @@ Then run graphical lasso on that.
 
 Assume:
 
-[
+$$
 x_i \sim (1-\epsilon)P + \epsilon Q
-]
+$$
 
 * P = true distribution
 * Q = adversary
@@ -1333,9 +1333,9 @@ You need:
 1. Compute robust center (geometric median)
 2. Remove points with large Mahalanobis distance:
 
-[
+$$
 (x_i - \mu)^T \hat{\Sigma}^{-1} (x_i - \mu) > \tau
-]
+$$
 
 3. Re-estimate
 
@@ -1352,15 +1352,15 @@ So:
 
 ### Do eigenvalue clipping:
 
-[
+$$
 \lambda_i \leftarrow \min(\lambda_i, \lambda_{max})
-]
+$$
 
 or shrinkage:
 
-[
+$$
 \hat{\Sigma} = (1 - \alpha)\Sigma + \alpha I
-]
+$$
 
 ---
 
@@ -1379,9 +1379,9 @@ Raw Tensor
 
 # 8) What Θ actually gives you (this is the payoff)
 
-[
+$$
 \Theta_{ij} = 0 \iff x_i \perp x_j \mid \text{others}
-]
+$$
 
 So:
 
@@ -1475,7 +1475,7 @@ It is intentionally modular so you can drop pieces into your larger Ukubona stac
 
 Implements:
 
-[
+$$
 X
 \rightarrow
 \text{Robust Center}
@@ -1485,7 +1485,7 @@ X
 \text{Spectral Cleaning}
 \rightarrow
 \text{Sparse Precision}
-]
+$$
 
 Using:
 
@@ -1693,9 +1693,9 @@ print("Graph edges:", A.sum().item())
 
 This maps directly to your objective:
 
-[
+$$
 \frac{\Delta I}{T \cdot \tau}
-]
+$$
 
 ```python
 def epistemic_speed(info_gain, elapsed_time, token_cost):
