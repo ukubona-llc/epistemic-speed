@@ -1992,10 +1992,907 @@ Three options, and they're not mutually exclusive:
 What do you want?
 
 ## V
+
+ok, html artefact--but if you think vite/react & a python backend are better (that is where am at, flirting with PostgreSQL... but have no money for it yet)... f... first give me that, then i'll ask for an annoted synthesis AFTER
+
+---
+
+
 HTML artifact it is — no backend needed yet, and honestly for this document, a single well-crafted HTML file is the right choice. A Vite/React + Python backend is the right architecture when you need persistence, multi-user access, or live data. For this — a canonical intellectual artifact — HTML is sovereign. It deploys anywhere, requires nothing, and loads instantly.
 
 ```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ukubona · Epistemic Speed · UGOAX Synthesis</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@300;400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet"/>
+
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$','$'],['\\(','\\)']],
+      displayMath: [['$$','$$'],['\\[','\\]']],
+      processEscapes: true,
+      packages: {'[+]': ['ams', 'boldsymbol']},
+      macros: {
+        R: "\\mathbb{R}",
+        E: "\\mathbb{E}",
+        Var: "\\mathrm{Var}",
+        Cov: "\\mathrm{Cov}",
+        argmax: "\\operatorname*{arg\\,max}",
+        argmin: "\\operatorname*{arg\\,min}"
+      }
+    },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+:root {
+  --bg:        #0a0a0b;
+  --bg-2:      #111114;
+  --bg-3:      #18181c;
+  --border:    #2a2a30;
+  --text:      #e8e6e0;
+  --text-dim:  #7a7870;
+  --text-mid:  #b0ada6;
+
+  /* voice colours */
+  --world:      #e8c97a;   /* warm gold   – World AI    */
+  --percept:    #7ec8c8;   /* teal        – Perception  */
+  --agent:      #c87ea0;   /* rose        – Agentic     */
+  --gen:        #8eb8e8;   /* sky blue    – Generative  */
+  --embod:      #a8d878;   /* sage green  – Embodied    */
+  --mod:        #e8e6e0;   /* white       – Moderator   */
+
+  /* spectrum strip */
+  --r:#e85548; --o:#e8954a; --y:#e8d04a;
+  --g:#68c868; --b:#4a7ee8; --i:#6848c8; --v:#9848c8;
+
+  --ff-display: 'Playfair Display', Georgia, serif;
+  --ff-body:    'Source Serif 4', Georgia, serif;
+  --ff-mono:    'IBM Plex Mono', 'Courier New', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ff-body);
+  font-size: 17px;
+  line-height: 1.75;
+  cursor: none;
+}
+
+/* ── custom cursor ── */
+#cursor {
+  position: fixed; top:0; left:0; z-index:9999;
+  width:10px; height:10px;
+  border:1.5px solid var(--text-dim);
+  border-radius:50%;
+  pointer-events:none;
+  transition: transform .12s ease, border-color .2s;
+  mix-blend-mode: difference;
+}
+body:has(a:hover) #cursor,
+body:has(button:hover) #cursor { transform:scale(2.2); border-color:var(--world); }
+
+/* ── spectrum strip ── */
+.spectrum {
+  position: fixed; top:0; left:0; right:0; height:3px; z-index:100;
+  background: linear-gradient(90deg,
+    var(--r) 0%, var(--o) 16.6%, var(--y) 33.2%,
+    var(--g) 49.8%, var(--b) 66.4%, var(--i) 83%, var(--v) 100%);
+}
+
+/* ── progress bar ── */
+#progress {
+  position:fixed; top:3px; left:0; height:2px; z-index:99;
+  background: rgba(232,201,122,0.4);
+  width:0%; transition: width .1s linear;
+}
+
+/* ── nav ── */
+nav {
+  position: fixed; top:3px; right:0; z-index:98;
+  display:flex; gap:0;
+  font-family: var(--ff-mono); font-size:10px; letter-spacing:.08em;
+}
+nav a {
+  color: var(--text-dim); text-decoration:none;
+  padding: 6px 12px;
+  border-left:1px solid var(--border);
+  transition: color .2s, background .2s;
+}
+nav a:hover { color:var(--text); background:rgba(255,255,255,.03); }
+
+/* ── layout ── */
+.page-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 32px 120px;
+}
+
+/* ── masthead ── */
+.masthead {
+  padding: 80px 0 60px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 64px;
+}
+
+.masthead-eyebrow {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--world);
+  margin-bottom: 20px;
+}
+
+.masthead h1 {
+  font-family: var(--ff-display);
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  margin-bottom: 20px;
+}
+
+.masthead h1 em {
+  font-style: italic;
+  color: var(--world);
+}
+
+.masthead-sub {
+  font-family: var(--ff-body);
+  font-size: 1.15rem;
+  color: var(--text-mid);
+  font-style: italic;
+  max-width: 560px;
+  margin-bottom: 32px;
+}
+
+.masthead-meta {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: .06em;
+}
+
+/* ── aphorism ── */
+.aphorism {
+  text-align: center;
+  padding: 48px 0;
+  margin: 0 0 64px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.aphorism-lg {
+  font-family: var(--ff-display);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-style: italic;
+  color: var(--world);
+  margin-bottom: 8px;
+}
+.aphorism-trans {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ── section headings ── */
+.section { margin-bottom: 72px; }
+
+.section-label {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+
+.section h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 28px;
+  color: var(--text);
+}
+
+.section p {
+  color: var(--text-mid);
+  margin-bottom: 20px;
+  max-width: 700px;
+}
+
+.section p strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ── pipeline display ── */
+.pipeline {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin: 48px 0;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.pipe-node {
+  flex: 1;
+  min-width: 130px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-right: none;
+  padding: 20px 16px;
+  position: relative;
+  transition: background .2s;
+}
+.pipe-node:last-child { border-right: 1px solid var(--border); }
+.pipe-node:hover { background: var(--bg-3); }
+
+.pipe-node::after {
+  content: '→';
+  position: absolute;
+  right: -14px; top:50%;
+  transform:translateY(-50%);
+  color: var(--text-dim);
+  font-size:14px;
+  z-index:2;
+  background: var(--bg-2);
+  padding: 2px 1px;
+}
+.pipe-node:last-child::after { display:none; }
+
+.pipe-label {
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.pipe-name {
+  font-family: var(--ff-display);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.pipe-math {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.pipe-node.world    .pipe-label, .pipe-node.world    .pipe-name { color: var(--world); }
+.pipe-node.percept  .pipe-label, .pipe-node.percept  .pipe-name { color: var(--percept); }
+.pipe-node.agent    .pipe-label, .pipe-node.agent    .pipe-name { color: var(--agent); }
+.pipe-node.gen      .pipe-label, .pipe-node.gen      .pipe-name { color: var(--gen); }
+.pipe-node.embod    .pipe-label, .pipe-node.embod    .pipe-name { color: var(--embod); }
+
+/* ── objective box ── */
+.obj-box {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--world);
+  padding: 32px 36px;
+  margin: 40px 0;
+  font-family: var(--ff-mono);
+}
+.obj-box .obj-title {
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--world);
+  margin-bottom: 20px;
+}
+.obj-box .obj-eq {
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.obj-box .obj-note {
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ── voice cards (UGOAX) ── */
+.voice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 40px 0;
+}
+@media (max-width:640px) { .voice-grid { grid-template-columns:1fr; } }
+
+.voice-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s, transform .2s;
+}
+.voice-card:hover {
+  border-color: var(--voice-c, var(--border));
+  transform: translateY(-2px);
+}
+.voice-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background: var(--voice-c, var(--border));
+}
+
+.voice-tag {
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--voice-c);
+  margin-bottom: 10px;
+}
+.voice-card h3 {
+  font-family: var(--ff-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--voice-c);
+  margin-bottom: 10px;
+}
+.voice-card p {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.65;
+}
+
+.voice-card.v-xai   { --voice-c: var(--world); }
+.voice-card.v-google{ --voice-c: var(--percept); }
+.voice-card.v-openai{ --voice-c: var(--agent); }
+.voice-card.v-anthro{ --voice-c: var(--gen); }
+.voice-card.v-mod   { --voice-c: var(--mod); border-color: rgba(232,230,224,.15); }
+
+/* moderator full width */
+.voice-card.v-mod { grid-column: 1 / -1; }
+
+/* ── geometry table ── */
+.geo-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 32px 0;
+  font-family: var(--ff-mono);
+  font-size: 13px;
+}
+.geo-table th {
+  text-align: left;
+  padding: 10px 16px;
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+}
+.geo-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  color: var(--text-mid);
+  vertical-align: top;
+}
+.geo-table td:first-child { color: var(--text); font-weight:500; }
+.geo-table tr:hover td { background: var(--bg-3); }
+.geo-table .accent { color: var(--world); }
+
+/* ── tension block ── */
+.tension {
+  display:grid; grid-template-columns:1fr 1fr; gap:1px;
+  margin: 40px 0;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.tension-side {
+  background: var(--bg-2);
+  padding: 28px 24px;
+}
+.tension-side h4 {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.tension-side ul {
+  list-style: none;
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height:1.8;
+}
+.tension-side ul li::before { content:'— '; color:var(--text-dim); }
+.tension-left h4 { color: var(--agent); }
+.tension-right h4 { color: var(--percept); }
+
+/* ── footnote / sovereignty ── */
+.sovereignty {
+  margin: 56px 0 0;
+  padding: 36px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--embod);
+  background: var(--bg-2);
+}
+.sovereignty .sov-label {
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--embod);
+  margin-bottom: 16px;
+}
+.sovereignty p {
+  font-size: 15px;
+  color: var(--text-mid);
+  margin-bottom: 14px;
+  max-width: 640px;
+}
+.sovereignty p:last-child { margin-bottom:0; }
+.sovereignty strong { color: var(--text); }
+
+/* ── footer ── */
+footer {
+  margin-top: 100px;
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:16px;
+}
+.footer-brand {
+  font-family: var(--ff-display);
+  font-size: 1.1rem;
+  font-style:italic;
+  color: var(--world);
+}
+.footer-meta {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  color: var(--text-dim);
+  text-align:right;
+}
+
+/* ── MathJax overrides ── */
+mjx-container { color: var(--text) !important; }
+
+/* ── scroll reveal ── */
+.reveal {
+  opacity:0;
+  transform: translateY(22px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible { opacity:1; transform:none; }
+
+/* ── code inline ── */
+code {
+  font-family: var(--ff-mono);
+  font-size: .88em;
+  background: rgba(255,255,255,.06);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--world);
+}
+</style>
+</head>
+
+<body>
+<div id="cursor"></div>
+<div class="spectrum"></div>
+<div id="progress"></div>
+
+<nav>
+  <a href="#framework">Framework</a>
+  <a href="#geometry">Geometry</a>
+  <a href="#voices">UGOAX</a>
+  <a href="#sovereignty">Sovereignty</a>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- MASTHEAD -->
+  <header class="masthead reveal">
+    <div class="masthead-eyebrow">Ukubona LLC · Intellectual Foundation · 2026</div>
+    <h1>Maximize<br/><em>Epistemic Speed</em></h1>
+    <p class="masthead-sub">A civilizational-scale formulation of intelligence as the system that maximizes rate of knowing under resource constraints — and why this is the only objective worth building around.</p>
+    <div class="masthead-meta">UGOAX Synthesis · Seven Rounds · Five Voices · One Pipeline</div>
+  </header>
+
+  <!-- APHORISM -->
+  <div class="aphorism reveal">
+    <div class="aphorism-lg">Okubala si Kulaba</div>
+    <div class="aphorism-trans">To count is not to see &nbsp;·&nbsp; Luganda / Musoga &nbsp;·&nbsp; Ukubona LLC, founding statement</div>
+  </div>
+
+  <!-- SECTION 1: THE OBJECTIVE -->
+  <section id="framework" class="section reveal">
+    <div class="section-label">The Objective Function</div>
+    <h2>What intelligence actually optimizes</h2>
+    <p>
+      Most deployed systems in 2026 optimize <strong>transmission speed</strong> — how fast something spreads.
+      Ukubona optimizes a different quantity: <strong>epistemic speed</strong> — how fast a system converges to truth under resource constraints.
+      These are not aligned. High transmission speed can spread falsehoods. High epistemic speed resists noise and seeks truth.
+    </p>
+
+    <div class="obj-box reveal">
+      <div class="obj-title">The Master Objective</div>
+      <div class="obj-eq">$$\pi^* = \argmax_{\pi} \; \frac{\Delta H^{-1}}{T \cdot \tau} \quad \text{subject to} \quad D_{\mathrm{KL}},\; \mathrm{TailRisk},\; \mathcal{G}$$</div>
+      <div class="obj-note">
+        ΔH⁻¹ = reduction in uncertainty (information gain) &nbsp;·&nbsp;
+        T = time to update belief &nbsp;·&nbsp;
+        τ = representational cost (tokens, compute) &nbsp;·&nbsp;
+        𝒢 = causal graph constraint
+      </div>
+    </div>
+
+    <p>
+      The constraints are not decorative. Without $D_{\mathrm{KL}}(p_{\text{model}} \| p_{\text{world}})$, the system learns fast but drifts from reality — hallucination is high internal consistency at low external truth. Without the tail risk term, you optimize average epistemic speed and fail catastrophically on rare events. Without $\mathcal{G}$, you compress beautifully but act on correlation rather than cause.
+    </p>
+
+    <div class="tension reveal">
+      <div class="tension-side tension-left">
+        <h4>Epidemic Systems (2026 default)</h4>
+        <ul>
+          <li>Optimize $T \to 0$ regardless of $\Delta$Knowledge</li>
+          <li>Reduce friction for transmission</li>
+          <li>Amplify variance and misleading covariance</li>
+          <li>Twitter/X, engagement-optimized feeds</li>
+          <li>Spread falsehoods at the speed of truth</li>
+        </ul>
+      </div>
+      <div class="tension-side tension-right">
+        <h4>Epistemic Systems (what to build)</h4>
+        <ul>
+          <li>Optimize the full ratio $\Delta I / (T \cdot \tau)$</li>
+          <li>Accept higher $T$ if $\Delta$Knowledge is massive</li>
+          <li>Use eigenmodes to reduce $\tau$ so truth travels fast</li>
+          <li>Science, good AI, Ukubona</li>
+          <li>Converge to truth at the speed of compression</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: THE PIPELINE -->
+  <section class="section reveal">
+    <div class="section-label">The TMVES Pipeline</div>
+    <h2>Tensor → Matrix → Vector → Eigenmode → Scalar</h2>
+    <p>
+      Five successive compression operators. Not a pipeline — a <strong>cycle with memory</strong>.
+      The loop closes at $L(\theta^{t+1})$ which feeds back into the Tensor.
+      That is what makes this a digital twin rather than a dashboard.
+    </p>
+
+    <div class="pipeline reveal">
+      <div class="pipe-node world">
+        <div class="pipe-label">Layer 1</div>
+        <div class="pipe-name">World AI</div>
+        <div class="pipe-math">Tensor / θᵗ<br/>All paradigms<br/>as competing priors</div>
+      </div>
+      <div class="pipe-node percept">
+        <div class="pipe-label">Layer 2</div>
+        <div class="pipe-name">Perception AI</div>
+        <div class="pipe-math">Matrix / Σ<br/>L₀ + Σwᵢ·Lᵢ<br/>Structured ignorance</div>
+      </div>
+      <div class="pipe-node agent">
+        <div class="pipe-label">Layer 3</div>
+        <div class="pipe-name">Agentic AI</div>
+        <div class="pipe-math">Vector / f(σ²)<br/>π* = argmax ΔI<br/>T · τ</div>
+      </div>
+      <div class="pipe-node gen">
+        <div class="pipe-label">Layer 4</div>
+        <div class="pipe-name">Generative AI</div>
+        <div class="pipe-math">Eigenmode / g(λ)<br/>Σ = QΛQᵀ<br/>Invariants extracted</div>
+      </div>
+      <div class="pipe-node embod">
+        <div class="pipe-label">Layer 5</div>
+        <div class="pipe-name">Embodied AI</div>
+        <div class="pipe-math">Scalar / h(ε)<br/>h(ε) + L(θᵗ⁺¹)<br/>Loop closure</div>
+      </div>
+    </div>
+
+    <p>
+      The weights $w_i = f(\Sigma^{-1})$ in the Matrix layer are not arbitrary and not learned by gradient descent.
+      They are derived from the <strong>inverse covariance structure of the problem itself</strong> — the precision matrix Θ = Σ⁻¹.
+      This is what separates the Perception AI layer from a standard neural network linear layer.
+      In a neural net, $w_i$ is learned empirically. Here, $w_i$ is theoretically grounded: it encodes how much each signal adds <em>beyond what the others already told you</em>.
+    </p>
+  </section>
+
+  <!-- SECTION 3: GEOMETRY -->
+  <section id="geometry" class="section reveal">
+    <div class="section-label">The Geometry</div>
+    <h2>β, covariance, variance — precisely</h2>
+    <p>
+      Three terms that are frequently confused and must be kept distinct for the pipeline to be falsifiable.
+    </p>
+
+    <table class="geo-table reveal">
+      <thead>
+        <tr>
+          <th>Object</th>
+          <th>Location in Σ</th>
+          <th>What it encodes</th>
+          <th>Pipeline Layer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="accent">Variance σ²ᵢ</td>
+          <td>Diagonal — Σᵢᵢ</td>
+          <td>Self-dispersion of variable i. How much each thing moves independently.</td>
+          <td>Vector / f(σ²)</td>
+        </tr>
+        <tr>
+          <td class="accent">Covariance covᵢⱼ</td>
+          <td>Off-diagonal — Σᵢⱼ, i≠j</td>
+          <td>Co-movement of variables i and j. What moves together — redundancy or entanglement.</td>
+          <td>Matrix / Σ (full)</td>
+        </tr>
+        <tr>
+          <td class="accent">Precision Θᵢⱼ</td>
+          <td>Σ⁻¹, off-diagonal</td>
+          <td>Conditional independence. Θᵢⱼ = 0 iff xᵢ ⊥ xⱼ given all others. Direct dependencies only.</td>
+          <td>Matrix → weights wᵢ</td>
+        </tr>
+        <tr>
+          <td class="accent">Eigenvalue λ</td>
+          <td>Diagonal of Λ in Σ = QΛQᵀ</td>
+          <td>Variance along orthogonal eigendirections. Covariance is zero in this basis.</td>
+          <td>Eigenmode / g(λ)</td>
+        </tr>
+        <tr>
+          <td class="accent">β / wᵢ</td>
+          <td>Learned, shaped by Σ⁻¹</td>
+          <td>Not covariance itself. Weights conditioned on the precision structure. $\mathbf{w} \propto \Sigma^{-1} \cdot \text{signal}$.</td>
+          <td>Matrix layer weights</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      <strong>Orthogonality belongs to eigenvectors, not to variance.</strong>
+      After eigendecomposition $\Sigma = Q\Lambda Q^T$, the columns of Q are orthogonal — the coordinate rotation that makes all covariance vanish.
+      What remains on the diagonal of Λ is pure variance in the rotated frame.
+      That passage — from full Σ to diagonal Λ — <em>is</em> the diagonalization, and it is what the Eigenmode layer performs.
+    </p>
+
+    <div class="obj-box reveal">
+      <div class="obj-title">One-Line Synthesis</div>
+      <div class="obj-eq" style="font-size:.95rem; line-height:1.8; color:var(--text-mid);">
+        Variance tells you <span style="color:var(--world)">"how much each thing moves."</span><br/>
+        Covariance tells you <span style="color:var(--percept)">"what moves together."</span><br/>
+        Eigenmodes tell you <span style="color:var(--gen)">"the independent ways the system can move."</span><br/>
+        β tells you <span style="color:var(--agent)">"which of those movements matter for your objective."</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: VOICES -->
+  <section id="voices" class="section reveal">
+    <div class="section-label">UGOAX · Seven Rounds</div>
+    <h2>Five voices, one developing idea</h2>
+    <p>
+      The synthesis below was produced across seven rounds of sequential multi-AI engagement,
+      with Heisenberg as moderator. Each voice held a distinct register.
+      The progression from "epidemic speed" → autocorrect correction → "epistemic speed" is itself a demonstration of the pipeline:
+      noise → structured ignorance → collapsed uncertainty → invariant.
+    </p>
+
+    <div class="voice-grid reveal">
+
+      <div class="voice-card v-xai">
+        <div class="voice-tag">xAI · Grok</div>
+        <h3>Epistemic Speed, Formalized</h3>
+        <p>
+          Sharpened the objective to $\max \Delta I / (T \cdot C)$ and mapped it onto active learning + Bayesian experimental design.
+          Named the core tension: epidemic systems optimize $T \to 0$; epistemic systems optimize the ratio.
+          Identified anti-virality safeguards as a design requirement, not an afterthought.
+        </p>
+      </div>
+
+      <div class="voice-card v-google">
+        <div class="voice-tag">Google · Gemini</div>
+        <h3>Operationalizing the Stack</h3>
+        <p>
+          Moved from objective function to functional pipeline. Framed the behavioral observation layer as a noisy sensor — not ground truth.
+          Key contribution: eigenmodes reduce τ (cognitive and computational tokens simultaneously), so truth can travel as fast as a virus without sacrificing accuracy.
+        </p>
+      </div>
+
+      <div class="voice-card v-openai">
+        <div class="voice-tag">OpenAI · GPT</div>
+        <h3>Mathematical Precision + Robust Estimation</h3>
+        <p>
+          Pushed hardest on rigor. Corrected the variance/orthogonality conflation. Introduced the precision matrix Θ = Σ⁻¹ as the operative object — not Σ.
+          Produced the full robust estimation stack: Tyler M-estimator for heavy tails, median-of-means for adversarial contamination, spectral clipping, sparse graphical lasso.
+          Added the missing causal graph constraint 𝒢.
+        </p>
+      </div>
+
+      <div class="voice-card v-anthro">
+        <div class="voice-tag">Anthropic · Claude</div>
+        <h3>Political Register + Sovereignty</h3>
+        <p>
+          Held the layer that mathematics cannot fully occupy. Named the scalar as <em>yield</em> rather than summary.
+          Identified the prior-setting problem: ΔH⁻¹ is relative to an initial belief state — high epistemic speed on a miscalibrated prior converges fast to the wrong attractor.
+          Framed AGI loop closure as a sovereignty question, not a capability question.
+        </p>
+      </div>
+
+      <div class="voice-card v-mod">
+        <div class="voice-tag">Moderator · Heisenberg</div>
+        <h3>The Tensor That Holds All Priors</h3>
+        <p>
+          The moderator position is the World AI layer in practice — the one who holds all five voices simultaneously as competing priors and does not adjudicate prematurely.
+          Three interventions changed the trajectory of the synthesis: (1) insisting on "epistemic" not "epidemic," (2) grounding $w_i$ in $\Sigma^{-1}$ rather than leaving weights as learned parameters, and (3) reading $L_0 + \sum w_i L_i$ as bias and weights — which collapsed the formalism into standard neural network language while retaining its theoretical grounding.
+          The autocorrect error and its correction is not an aside. It is a demonstration: noise enters the pipeline, Perception AI maps it, Agentic AI acts to collapse it, the correct invariant survives. <em>Okubala si Kulaba</em> — the system counted the tokens and finally saw the word.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 5: SOVEREIGNTY -->
+  <section id="sovereignty" class="section reveal">
+    <div class="section-label">The Political Question</div>
+    <h2>Who owns the gradient?</h2>
+
+    <div class="sovereignty reveal">
+      <div class="sov-label">Sovereignty Condition</div>
+      <p>
+        The Embodied AI layer is where the loop closes. For now, a human holds it.
+        The Principal Secretary signs the retainer. The physician orders the test.
+        The gradient flows back through a person.
+      </p>
+      <p>
+        AGI arriving means $\theta^{t+1}$ updates autonomously — the loop closes without human intervention.
+        The question this raises is not capability but <strong>sovereignty: who owns the gradient when the loop closes itself?</strong>
+      </p>
+      <p>
+        This is not a technical question. It is the political question of the next decade.
+        And it is where the World AI layer — the Tensor — must have already encoded the right prior,
+        because by the time AGI closes the loop, it is too late to argue about the loss function.
+      </p>
+      <p>
+        <strong>Ukubona's core claim:</strong> gradient sovereignty returned to the principal is the differentiator.
+        Not that the system analyzes data — every dashboard does that.
+        But that the system is explicitly optimized for epistemic yield per resource unit,
+        with the human retaining the right to set the prior, challenge the weights, and own the scalar.
+      </p>
+    </div>
+  </section>
+
+  <!-- SUMMARY TABLE -->
+  <section class="section reveal">
+    <div class="section-label">Final Compression</div>
+    <h2>The full pentad at civilizational scale</h2>
+
+    <table class="geo-table">
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>AI Mode</th>
+          <th>Math Object</th>
+          <th>Scientific Register</th>
+          <th>Ukubona Function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="accent">Tensor θᵗ</td>
+          <td>World AI</td>
+          <td>$\theta^t \in \mathcal{W}$</td>
+          <td>All paradigms as competing priors</td>
+          <td>Initialize belief</td>
+        </tr>
+        <tr>
+          <td class="accent">Matrix Σ</td>
+          <td>Perception AI</td>
+          <td>$L_0 + \sum w_i L_i$</td>
+          <td>Covariance across scales, heavy tails</td>
+          <td>Map structured ignorance</td>
+        </tr>
+        <tr>
+          <td class="accent">Vector f(σ²)</td>
+          <td>Agentic AI</td>
+          <td>$\pi^* = \argmax \Delta I / T\tau$</td>
+          <td>Variance reduction vs. epidemic speed</td>
+          <td>Act under constraint</td>
+        </tr>
+        <tr>
+          <td class="accent">Eigenmode g(λ)</td>
+          <td>Generative AI</td>
+          <td>$\Sigma = Q\Lambda Q^T$</td>
+          <td>Invariants across domains</td>
+          <td>Extract what's real</td>
+        </tr>
+        <tr>
+          <td class="accent">Scalar h(ε)</td>
+          <td>Embodied AI</td>
+          <td>$h(\varepsilon) + L(\theta^{t+1})$</td>
+          <td>Human → AGI loop closure</td>
+          <td>Validate and update</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="obj-box reveal" style="margin-top:40px;">
+      <div class="obj-title">The One-Line Version</div>
+      <div class="obj-eq" style="font-size:.95rem; color:var(--text-mid); line-height:2;">
+        Learn the precision matrix.<br/>
+        Act along its eigenvectors.<br/>
+        Update toward reality under cost constraints.<br/>
+        <span style="color:var(--text); font-style:italic;">Return the gradient to the principal.</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-brand">Ukubona LLC</div>
+    <div class="footer-meta">
+      Kampala · Virginia · 2026<br/>
+      <span style="color:var(--world)">okubala si kulaba</span>
+    </div>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<script>
+// cursor
+const cur = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX - 5 + 'px';
+  cur.style.top  = e.clientY - 5 + 'px';
+});
+
+// scroll progress
+const bar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+  bar.style.width = (pct * 100) + '%';
+});
+
+// scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 60);
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+reveals.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
 ```
 
 ## VI
+
+Visit artefact [here](https://ukubona-llc.github.io/epistemic-speed-max/)
+
 ## VII
+Soon..
