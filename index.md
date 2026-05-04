@@ -1925,19 +1925,90 @@ That is not a technical question. That is the political question of the next dec
 
 **Final compression**
 
-| Layer | AI Mode | Scientific Register | Ukubona Function |
-|---|---|---|---|
-| Tensor θᵗ | World AI | All paradigms as competing priors | Initialize belief |
-| Matrix Σ | Perception AI | Covariance across scales, heavy tails | Map structured ignorance |
-| Vector f(σ²) | Agentic AI | Variance reduction vs. epidemic speed | Act under constraint |
-| Eigenmode g(λ) | Generative AI | Invariants across domains | Extract what's real |
-| Scalar h(ε) | Embodied AI | Human → AGI loop closure | Validate and update |
+If you’re going to force-fit Donald Rumsfeld’s schema onto your stack, the cleanest way is to treat his categories as *epistemic states of the system* at each layer—not as separate layers themselves.
+
+You had one duplication (“Known Unknown” twice), so I resolved it to the canonical triad + your added inversion (“Unknown Known”) and mapped them progressively:
+
+---
+
+### Ukubona × Rumsfeld (Forced Alignment)
+
+| Layer          | AI Mode       | Scientific Register                   | Ukubona Function         | Rumsfeld State             |
+| -------------- | ------------- | ------------------------------------- | ------------------------ | -------------------------- |
+| Tensor θᵗ      | World AI      | All paradigms as competing priors     | Initialize belief        | **Known Known**            |
+| Matrix Σ       | Perception AI | Covariance across scales, heavy tails | Map structured ignorance | **Known Unknown**          |
+| Vector f(σ²)   | Agentic AI    | Variance reduction vs. epidemic speed | Act under constraint     | **Unknown Known**          |
+| Eigenmode g(λ) | Generative AI | Invariants across domains             | Extract what's real      | **Unknown Unknown**        |
+| Scalar h(ε)    | Embodied AI   | Human → AGI loop closure              | Validate and update      | **(Return → Known Known)** |
+
+---
+
+### Why this mapping actually holds (not just poetic)
+
+* **Tensor → Known Known**
+  Priors are what you *think you know*. They’re explicit, encoded, and enumerable. Even if wrong, they’re “known knowns.”
+
+* **Matrix → Known Unknown**
+  Covariance is literally a map of uncertainty. You know the structure of what you don’t know (variance, correlation, tails).
+
+* **Vector → Unknown Known**
+  This is the controversial one—but it’s right.
+  Action often relies on *latent competence* (policies, heuristics, embodied priors) that aren’t explicitly represented.
+  You “know” how to act without fully knowing that you know → **tacit knowledge**.
+
+* **Eigenmode → Unknown Unknown**
+  Eigenmodes surface hidden structure. You don’t even know what invariants exist until decomposition reveals them.
+
+* **Scalar → Closure (collapse back to Known Known)**
+  Once validated, the system compresses back into updated priors.
+  This is the recursive loop: epistemology → action → embodiment → epistemology.
+
+---
+
+### The deeper implication (this is where it stops being a metaphor)
+
+You’ve implicitly defined a **closed epistemic dynamical system**:
+
+* Rumsfeld’s categories are not static bins
+* They are **phases in a transformation pipeline**
+
+In other words:
+
+> Unknown Unknowns —(decomposition)→ Eigenmodes
+> → (action) Unknown Knowns
+> → (measurement) Known Unknowns
+> → (learning) Known Knowns
+
+That’s not philosophy anymore—that’s an **update operator**.
+
+---
+
+### If you want to tighten it further
+
+Right now your weakest link is:
+
+> **Vector = Unknown Known**
+
+It works conceptually, but to make it *mathematically defensible*, you’d want to formalize:
+
+* policy π(a|s) as compressed latent knowledge
+* not explicitly invertible back to Σ or θ
+
+That would make your claim precise:
+
+> “Unknown Known = non-invertible policy compression of prior + covariance”
+
+---
+
+If you want, next step is to express this entire table as a **PyTorch computational graph** where each layer literally transforms epistemic state. That’s where your earlier Σ⁻¹ robustness question plugs in naturally.
+
+---
 
 The loop closes at $L(\theta^{t+1})$ — which feeds back into the Tensor. This is not a pipeline. It is a **cycle with memory**. That is what makes it a digital twin rather than a dashboard.
 
 
 ## III
-Reasonable to think of L_0 + \Sigma w_i*L_i as bias & weights?
+Reasonable to think of $L_0 + \Sigma w_i*L_i$ as bias & weights?
 
 ---
 
